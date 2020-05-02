@@ -6,9 +6,11 @@ import router from './router'
 // click事件延迟问题
 import fastClick from 'fastclick'
 // 引入rest.css 不同浏览器显示不同问题
-import './assets/styles/reset.css'
+import 'styles/reset.css'
 // border.css 1px边框像素问题
-import './assets/styles/border.css'
+import 'styles/border.css'
+// 引入iconfont
+import 'styles/iconfont.css'
 
 Vue.config.productionTip = false
 fastClick.attach(document.body)
