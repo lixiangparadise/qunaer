@@ -1,12 +1,74 @@
 <template>
+<div>
     <div class='search'>
-        <input class="search-input" type="text" placeholder="输入城市名或拼音"/>
+        <input v-model="keyword"
+        class="search-input" type="text" placeholder="输入城市名或拼音"/>
     </div>
+    <!-- 如果输入关键字则显示列表 -->
+    <div class="search-content" ref="search" v-show="keyword">
+        <ul>
+            <li class="search-item border-bottom" v-for="item in list" :key="item.id">{{item.name}}</li>
+            <!-- 应用于：当输入关键字没有列表数据时 
+                v-show="list.length" => computed
+            -->
+            <li class="search-item border-bottom" v-show="hasNoData">没有找到匹配数据</li>
+        </ul>
+    </div>
+</div>
 </template>
 
 <script>
+import Bscroll from 'better-scroll'
 export default {
-    name:'CitySearch'
+    name:'CitySearch',
+    props:{
+        cities:Object
+    },
+    data(){
+        return{
+            keyword:'',
+            list:[], //包含关键字的城市list
+            timer:null
+        }
+    },
+    computed:{
+        //显示提示信息
+        hasNoData(){
+            return !this.list.length;
+        }
+    },
+    watch:{
+        keyword(){
+            //优化
+            if(this.timer){
+                clearTimeout(this.timer);
+            }
+            //keyword为空时直接返回
+            if(!this.keyword){
+                this.list=[];
+                return;
+            }
+            this.timer = setTimeout(()=>{
+                //查找满足关键字的list
+                const result = [];
+                for(let i in this.cities){
+                    //这里的i是key
+                    this.cities[i].forEach((value)=>{
+                        if(value.spell.indexOf(this.keyword) > -1
+                         || value.name.indexOf(this.keyword) > -1){
+                             result.push(value);
+                         }
+                    })
+                }
+                this.list = result;
+                
+            },100);
+        }
+    },
+    mounted(){
+        //对于数据过多需要滚动
+        this.scroll = new Bscroll(this.$refs.search);
+    }
 }
 </script>
 
@@ -26,4 +88,19 @@ export default {
         text-align:center
         border-radius:0.06rem
         color:#666
+.search-content
+    z-index:1
+    overflow hidden
+    position absolute
+    top: 1.58rem
+    left:0
+    bottom:0
+    right:0
+    background: #eee
+    .search-item
+        color:#666
+        background-color:#fff
+        line-height:0.62rem
+        padding-left:0.2rem
+
 </style>

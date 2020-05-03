@@ -7,6 +7,7 @@ yarn-error.log*
 package-lock.json
 red.md
 static/mock
+混淆点.md
 
 # Editor directories and files
 .idea
