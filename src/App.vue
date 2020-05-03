@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!-- 路由保持keep-alive -->
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
+    
   </div>
 </template>
 
