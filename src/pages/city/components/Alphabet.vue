@@ -34,43 +34,54 @@ export default {
     },
     data(){
         return{
-            touchStatus: false
+            touchStatus: false,
+            startY: 0,
+            timer:null
         }
+    },
+    //使用updated优化以防止startY重复计算
+    updated () {
+        this.startY = this.$refs['A'][0].offsetTop
+        // console.log(this.startY )
     },
     methods:{
         handleLetterClick(e){
             //兄弟组件之间传递数据
             //通过一个父组件City
             this.$emit('change',e.target.innerText)
-            // console.log(e.target.innerText);
         },
         /*下面三个方法针对的场景： 滑动右边A-Z使得右边也开始动
           计算距离从而测量到达的位置，然后将对应的字母传递到上层组件
         */
         //原生事件
         handleTouchStart(e){
-            // console.log("toch1");
             this.touchStatus = true;
         },
         handleTouchMove(e){
-            // console.log("toch2")
             //为true时
             if(this.touchStatus){
                 //元素A到[输入城市名或拼音]的距离
-                const startY = this.$refs['A'][0].offsetTop;
+                // const startY = this.$refs['A'][0].offsetTop;
                 // console.log(startY);
                 //e.touches[0].clientY表示手指touch位置到根元素顶部距离
                 //79是绿色底部到顶部的距离
                 //touchY就是手指触摸位置到绿色底部的距离
-                const touchY = e.touches[0].clientY - 79;
-                //20是每个字母的高度
-                const index = Math.floor((touchY-startY)/20);
-                //即可以得出手指对应的字母的下标
-                // console.log(this.letter);
-                if(index>=0 && index<this.letter.length){
-                    //将页数传递给上层组件
-                    this.$emit('change',this.letter[index]);
+                //如果定时器不为空
+                if(this.timer){
+                    clearTimeout(this.timer)
                 }
+                this.timer = setTimeout(()=>{
+                    const touchY = e.touches[0].clientY - 79;
+                    //20是每个字母的高度
+                    const index = Math.floor((touchY-this.startY)/20);
+                    //即可以得出手指对应的字母的下标
+                    // console.log(this.letter);
+                    if(index>=0 && index<this.letter.length){
+                        //将页数传递给上层组件
+                        this.$emit('change',this.letter[index]);
+                    }
+                },16)
+                
             }
         },
         handleTouchEnd(e){
