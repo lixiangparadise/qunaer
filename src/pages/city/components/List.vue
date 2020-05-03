@@ -5,14 +5,19 @@
                 <div class="title border-topbottom">当前城市</div>
                 <div class="button-list">
                     <div class="button-wrapper">
-                        <div class="button">北京</div>
+                        <!-- <div class="button">{{this.$store.state.city}}</div> -->
+                        <div class="button">{{this.currentCity}}</div>
+                        
                     </div>
                 </div>
             </div>
             <div class="area">
                 <div class="title border-topbottom">热门城市</div>
                 <div class="button-list">
-                    <div class="button-wrapper" v-for="item in hotCities" :key="item.id">
+                    <div class="button-wrapper" 
+                    v-for="item in hotCities" :key="item.id"
+                    @click="handleCityClick(item.name)"
+                    >
                         <div class="button">{{item.name}}</div>
                     </div>
                 </div>
@@ -24,7 +29,10 @@
             >
                 <div class="title border-topbottom">{{key}}</div>
                 <div class="item-list" >
-                    <div class="item border-bottom" v-for="innerItem in item" :key="innerItem.id">
+                    <div class="item border-bottom" 
+                    v-for="innerItem in item" :key="innerItem.id"
+                    @click="handleCityClick(innerItem.name)"
+                    >
                         {{innerItem.name}}
                     </div>
                 </div>
@@ -35,6 +43,8 @@
 
 <script>
 import Bscroll from 'better-scroll'
+// 使用 mapState 辅助函数帮助我们生成计算属性
+import {mapState, mapMutations} from 'vuex'
 export default {
     name:'CityList',
     props:{
@@ -42,8 +52,23 @@ export default {
         cities: Object,
         letter:String
     },
-    mounted () {
-        this.scroll = new Bscroll(this.$refs.wrapper)
+    computed:{
+        ...mapState({
+            currentCity: 'city'
+        })//将vuex中的city数据映射到计算属性（名为currentCity）中
+    },
+    methods:{
+        handleCityClick(city){
+            //修改store中的数据
+            //调用action
+            // this.$store.dispatch('changeCity',city);
+            //直接调用mutation
+            // this.$store.commit('changeCity',city);
+            this.changeCity(city);
+            this.$router.push('/');
+        },
+        //有个changCity的mutation，将该mutation映射到本组件中changeCity的方法中
+        ...mapMutations(['changeCity'])
     },
     //监听letter变化
     watch:{
@@ -54,6 +79,9 @@ export default {
             //better-scroll滚动到element元素
             this.scroll.scrollToElement(element);
         }
+    },
+    mounted () {
+        this.scroll = new Bscroll(this.$refs.wrapper)
     }
 }
 </script>

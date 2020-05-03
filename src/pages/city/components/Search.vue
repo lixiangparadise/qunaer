@@ -7,7 +7,12 @@
     <!-- 如果输入关键字则显示列表 -->
     <div class="search-content" ref="search" v-show="keyword">
         <ul>
-            <li class="search-item border-bottom" v-for="item in list" :key="item.id">{{item.name}}</li>
+            <li class="search-item border-bottom" 
+            v-for="item in list" :key="item.id"
+             @click="handleCityClick(item.name)"
+            >
+            {{item.name}}
+            </li>
             <!-- 应用于：当输入关键字没有列表数据时 
                 v-show="list.length" => computed
             -->
@@ -19,6 +24,7 @@
 
 <script>
 import Bscroll from 'better-scroll'
+import {mapMutations} from 'vuex'
 export default {
     name:'CitySearch',
     props:{
@@ -30,6 +36,24 @@ export default {
             list:[], //包含关键字的城市list
             timer:null
         }
+    },
+    methods:{
+        // handleCityClick(city){
+        //     //修改store中的数据
+        //     this.$store.commit('changeCity',city);
+        //     this.$router.push('/');
+        // }
+        handleCityClick(city){
+            //修改store中的数据
+            //调用action
+            // this.$store.dispatch('changeCity',city);
+            //直接调用mutation
+            // this.$store.commit('changeCity',city);
+            this.changeCity(city);
+            this.$router.push('/');
+        },
+        //有个changCity的mutation，将该mutation映射到本组件中changeCity的方法中
+        ...mapMutations(['changeCity'])
     },
     computed:{
         //显示提示信息

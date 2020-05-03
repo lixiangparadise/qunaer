@@ -15,7 +15,8 @@ import 'styles/reset.css'
 import 'styles/border.css'
 // 引入iconfont
 import 'styles/iconfont.css'
-
+//引入store.js
+import store from './store/index'
 
 Vue.config.productionTip = false
 fastClick.attach(document.body)
@@ -25,6 +26,7 @@ Vue.use(VueAwesomeSwiper)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
