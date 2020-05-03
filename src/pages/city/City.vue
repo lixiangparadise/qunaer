@@ -2,8 +2,11 @@
     <div>
         <city-header></city-header>
         <city-search></city-search>
-        <city-list :hotCities = "hotCities" :cities = "cities"></city-list>
-        <city-alphabet :cities = "cities"></city-alphabet>
+        <city-list 
+        :hotCities = "hotCities" 
+        :cities = "cities" 
+        :letter="letter"></city-list>
+        <city-alphabet :cities = "cities" @change="handleLetterChange"></city-alphabet>
     </div>
 </template>
 
@@ -19,7 +22,8 @@ export default {
     data(){
         return{
             hotCities:[],
-            cities: {}
+            cities: {},
+            letter:''
         }
     },
     components:{
@@ -29,7 +33,9 @@ export default {
         CityAlphabet
     },
     methods:{
-
+        handleLetterChange(letter){
+            this.letter = letter;
+        }
     },
     created(){
         axios.get('/api/city.json')
@@ -41,7 +47,7 @@ export default {
                 this.cities = data.cities;
                 this.hotCities = data.hotCities;
             }
-            console.log(res)
+            // console.log(res)
         })
         .catch(err=>{
             conole.log("city ajax error");
