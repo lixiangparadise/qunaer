@@ -37,20 +37,23 @@ export default {
             const top = document.documentElement.scrollTop;
             //60-140渐变
             if(top>60){
-                let opacity = (top/140);
-                opacity = opacity > 1 ? 1 : opacity
+                let opacity = top/140;
+                opacity = opacity > 1 ? 1 : opacity;
                 this.opacityStyle = {opacity};
                 this.showAbs=false;
             }
             else{
                 this.showAbs=true;
             }
-            // console.log(top);
         }
     },
     activated(){
-        //监听滚动事件
+        //监听滚动事件，这是绑定在window上的，在其他组件内部也可以使用
+        //因此为了不影响其他组件，在该组件结束后使用deactivated中的方法删除此监听
         window.addEventListener('scroll', this.handleScroll)
+    },
+    deactivated () {
+        window.removeEventListener('scroll', this.handleScroll)
     }
 
 }
