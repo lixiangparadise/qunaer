@@ -13,16 +13,20 @@
 
         </div>
     </div>
-    <!-- 根据情况看是否显示 -->
-    <common-gallary :imgs = "gallaryImgs" v-show="showGallary"
-        @close="handleGallaryClose"
-    ></common-gallary>
+    <fade-animation>
+        <!-- common-gallary相当于slot插入<transition>中 -->
+        <!-- 根据情况看是否显示 -->
+        <common-gallary :imgs = "gallaryImgs" v-show="showGallary"
+            @close="handleGallaryClose"
+        ></common-gallary>
+    </fade-animation>
 </div>
     
 </template>
 
 <script>
 // 引入局部组件
+import FadeAnimation from 'common/fade/FadeAnimation'
 import CommonGallary from 'common/gallary/Gallary'
 export default {
     name:'DetailBanner',
@@ -37,7 +41,8 @@ export default {
         }
     },
     components:{
-        CommonGallary
+        CommonGallary,
+        FadeAnimation
     },
     methods:{
         handleBannerClick(){
