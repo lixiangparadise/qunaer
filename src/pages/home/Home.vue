@@ -69,6 +69,8 @@ export default {
         this.lastCity = this.city;
         this.getHomeInfo()
     },
+    //由于使用了keep-alive所以在跳转另一个city的时候直接使用缓存中的数据，主页并没有变化
+    //所以需要监测是否发生变化，如果发生变化需要重新请求数据
     //使用keep-alive的生命周期
     activated(){
         //如果不相同则需要改变页面
@@ -79,7 +81,7 @@ export default {
         // console.log("activated")
     },
     deactivated(){
-        console.log("deactivated")
+        // console.log("deactivated")
     }
 }
 </script>

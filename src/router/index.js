@@ -21,5 +21,10 @@ export default new Router({
       name: 'Detail',
       component: Detail
     }
-  ]
+  ],
+  //页面切换过程中返回最顶部
+  //对于拖动，多个页面之间会相互影响
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })

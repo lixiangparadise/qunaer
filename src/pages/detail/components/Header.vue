@@ -35,6 +35,7 @@ export default {
     methods:{
         handleScroll(){
             const top = document.documentElement.scrollTop;
+            // console.log(top);
             //60-140渐变
             if(top>60){
                 let opacity = top/140;
@@ -47,12 +48,16 @@ export default {
             }
         }
     },
-    activated(){
+    //当对Detail不进行keep-alive时不能使用activated
+    // activated(){
+    mounted(){
+        // console.log("scroll")
         //监听滚动事件，这是绑定在window上的，在其他组件内部也可以使用
         //因此为了不影响其他组件，在该组件结束后使用deactivated中的方法删除此监听
         window.addEventListener('scroll', this.handleScroll)
     },
-    deactivated () {
+    unmounted () {
+        // console.log("unscroll")
         window.removeEventListener('scroll', this.handleScroll)
     }
 

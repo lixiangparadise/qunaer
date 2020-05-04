@@ -74,8 +74,8 @@ export default {
             // background-color green
             flex:1
             min-width:0 //保证内容不超出外层容器
+            padding: .1rem
             .item-title
-                // background-color green
                 line-height:0.54rem
                 font-size: 0.32rem
                 ellipsis() //省略号
@@ -85,7 +85,7 @@ export default {
                 ellipsis()
             .item-button
                 line-height:0.4rem
-                margin-top: 0.1rem
+                margin-top: 0.3rem
                 background: #ff9300
                 padding: 0 0.2rem
                 border-radius: 0.06rem
