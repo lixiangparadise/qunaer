@@ -2,11 +2,16 @@
     <ul class='list'>
         <!-- CityAlphabet -->
         <!-- v-for="(value,key) in cities" -->
+        <!-- 在手机端会拖动页面
+            touchstart.prevent阻止start的默认行为，就不会出现页面上下拖动的效果 -->
+            <!-- pc需要click事件因为pc不能识别tochstart
+                mobile就不需要click事件
+             -->
         <li class="item" 
         v-for="value of letter" 
         :key="value"
         :ref="value"
-        @touchstart = "handleTouchStart"
+        @touchstart.prevent = "handleTouchStart"
         @touchmove = "handleTouchMove"
         @touchend = "handleTouchEnd"
         @click = "handleLetterClick"
@@ -46,6 +51,7 @@ export default {
     },
     methods:{
         handleLetterClick(e){
+            console.log("cdfsdf")
             //兄弟组件之间传递数据
             //通过一个父组件City
             this.$emit('change',e.target.innerText)
@@ -55,9 +61,11 @@ export default {
         */
         //原生事件
         handleTouchStart(e){
+            console.log("start")
             this.touchStatus = true;
         },
         handleTouchMove(e){
+            console.log("move")
             //为true时
             if(this.touchStatus){
                 //元素A到[输入城市名或拼音]的距离
@@ -85,6 +93,7 @@ export default {
             }
         },
         handleTouchEnd(e){
+            console.log("end")
             // console.log("toch3")
             this.touchStatus = false;
         }

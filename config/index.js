@@ -13,6 +13,7 @@ module.exports = {
     //设置代理
     proxyTable: {
       '/api':{
+        // 联调过程将其改为服务器地址和端口
         target:'hettp://localhost:8080',
         pathRewrite:{
           '^/api':'/static/mock' //对于/api开头的换成该路径
