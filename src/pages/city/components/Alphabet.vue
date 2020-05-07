@@ -51,7 +51,7 @@ export default {
     },
     methods:{
         handleLetterClick(e){
-            console.log("cdfsdf")
+            // console.log("cdfsdf")
             //兄弟组件之间传递数据
             //通过一个父组件City
             this.$emit('change',e.target.innerText)
@@ -61,11 +61,11 @@ export default {
         */
         //原生事件
         handleTouchStart(e){
-            console.log("start")
+            // console.log("start")
             this.touchStatus = true;
         },
         handleTouchMove(e){
-            console.log("move")
+            // console.log("move")
             //为true时
             if(this.touchStatus){
                 //元素A到[输入城市名或拼音]的距离
@@ -93,7 +93,7 @@ export default {
             }
         },
         handleTouchEnd(e){
-            console.log("end")
+            // console.log("end")
             // console.log("toch3")
             this.touchStatus = false;
         }
